@@ -13,6 +13,7 @@ import { FACULTIES, DEFAULT_FACULTY_ID, type Question } from "@/data/instrict";
 import { StudyMode } from "@/components/instrict/StudyMode";
 import { QuizMode } from "@/components/instrict/QuizMode";
 import { AskInstrictPanel } from "@/components/instrict/AskInstrictPanel";
+import { WhatsAppCTA } from "@/components/instrict/WhatsAppCTA";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -47,6 +48,20 @@ function Index() {
     [department, courseCode],
   );
 
+  // Year filter (derived from the currently selected course's questions)
+  const availableYears = useMemo(() => {
+    const ys = Array.from(new Set((course?.questions ?? []).map((q) => q.year))).sort(
+      (a, b) => b - a,
+    );
+    return ys;
+  }, [course]);
+  const [year, setYear] = useState<number | "all">("all");
+
+  const filteredQuestions = useMemo(() => {
+    if (!course) return [];
+    return year === "all" ? course.questions : course.questions.filter((q) => q.year === year);
+  }, [course, year]);
+
   // Keep selections coherent when faculty/department changes
   const onFacultyChange = (id: string) => {
     const f = FACULTIES.find((x) => x.id === id)!;
@@ -54,17 +69,20 @@ function Index() {
     setDeptId(f.departments[0].id);
     setLevel(f.departments[0].courses[0]?.level ?? 100);
     setCourseCode(f.departments[0].courses[0]?.code ?? "");
+    setYear("all");
   };
   const onDeptChange = (id: string) => {
     const d = faculty.departments.find((x) => x.id === id)!;
     setDeptId(id);
     setLevel(d.courses[0]?.level ?? 100);
     setCourseCode(d.courses[0]?.code ?? "");
+    setYear("all");
   };
   const onLevelChange = (lvl: number) => {
     setLevel(lvl);
     const first = department.courses.find((c) => c.level === lvl);
     if (first) setCourseCode(first.code);
+    setYear("all");
   };
 
   const [panelOpen, setPanelOpen] = useState(false);
@@ -169,7 +187,13 @@ function Index() {
             </div>
 
             {coursesForLevel.length > 0 ? (
-              <Select value={course?.code ?? ""} onValueChange={setCourseCode}>
+              <Select
+                value={course?.code ?? ""}
+                onValueChange={(v) => {
+                  setCourseCode(v);
+                  setYear("all");
+                }}
+              >
                 <SelectTrigger className="w-[260px] border-border bg-card">
                   <SelectValue placeholder="Select course" />
                 </SelectTrigger>
@@ -186,6 +210,25 @@ function Index() {
                 No courses at {level}L for {department.name} yet.
               </span>
             )}
+
+            {availableYears.length > 0 && (
+              <Select
+                value={String(year)}
+                onValueChange={(v) => setYear(v === "all" ? "all" : Number(v))}
+              >
+                <SelectTrigger className="w-[160px] border-border bg-card">
+                  <SelectValue placeholder="Year" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All years</SelectItem>
+                  {availableYears.map((y) => (
+                    <SelectItem key={y} value={String(y)}>
+                      {y}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
           </div>
         </div>
       </section>
@@ -197,15 +240,19 @@ function Index() {
             <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
               <div>
                 <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
-                  {department.name} · {course.level}L
+                  {department.name} · {course.level}L{year !== "all" ? ` · ${year}` : ""}
                 </p>
                 <h2 className="mt-1 text-xl font-semibold tracking-tight sm:text-2xl">
                   {course.code} — {course.title}
                 </h2>
               </div>
               <span className="text-xs text-muted-foreground">
-                {course.questions.length} past questions
+                {filteredQuestions.length} past question{filteredQuestions.length === 1 ? "" : "s"}
               </span>
+            </div>
+
+            <div className="mb-6">
+              <WhatsAppCTA departmentName={department.name} url={department.whatsappUrl} />
             </div>
 
             <Tabs defaultValue="study" className="w-full">
@@ -221,11 +268,17 @@ function Index() {
               </TabsList>
 
               <TabsContent value="study" className="mt-6">
-                <StudyMode course={course} department={department} onAskAI={onAskAI} />
+                <StudyMode questions={filteredQuestions} onAskAI={onAskAI} />
               </TabsContent>
 
               <TabsContent value="quiz" className="mt-6">
-                <QuizMode course={course} department={department} onAskAI={onAskAI} />
+                <QuizMode
+                  course={course}
+                  department={department}
+                  facultyName={faculty.name}
+                  year={year}
+                  questions={filteredQuestions}
+                />
               </TabsContent>
             </Tabs>
           </>
@@ -244,8 +297,6 @@ function Index() {
         open={panelOpen}
         onOpenChange={setPanelOpen}
         question={activeQ}
-        departmentName={department.name}
-        whatsappUrl={department.whatsappUrl}
       />
     </div>
   );
