@@ -2,14 +2,11 @@ import { useEffect, useState } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Sparkles } from "lucide-react";
 import type { Question } from "@/data/instrict";
-import { WhatsAppCTA } from "./WhatsAppCTA";
 
 type Props = {
   open: boolean;
   onOpenChange: (v: boolean) => void;
   question: Question | null;
-  departmentName: string;
-  whatsappUrl: string;
 };
 
 const buildStream = (q: Question | null) => {
@@ -26,7 +23,7 @@ const buildStream = (q: Question | null) => {
   ];
 };
 
-export function AskInstrictPanel({ open, onOpenChange, question, departmentName, whatsappUrl }: Props) {
+export function AskInstrictPanel({ open, onOpenChange, question }: Props) {
   const [text, setText] = useState("");
   const [done, setDone] = useState(false);
 
@@ -96,7 +93,6 @@ export function AskInstrictPanel({ open, onOpenChange, question, departmentName,
               </div>
             </div>
 
-            <WhatsAppCTA departmentName={departmentName} url={whatsappUrl} />
           </div>
         )}
       </SheetContent>

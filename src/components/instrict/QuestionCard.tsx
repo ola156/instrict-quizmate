@@ -1,17 +1,15 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sparkles, ChevronDown, ChevronUp } from "lucide-react";
-import type { Question, Department } from "@/data/instrict";
-import { WhatsAppCTA } from "./WhatsAppCTA";
+import type { Question } from "@/data/instrict";
 
 type Props = {
   question: Question;
   index: number;
-  department: Department;
   onAskAI: (q: Question) => void;
 };
 
-export function QuestionCard({ question, index, department, onAskAI }: Props) {
+export function QuestionCard({ question, index, onAskAI }: Props) {
   const [show, setShow] = useState(false);
 
   return (
@@ -82,7 +80,6 @@ export function QuestionCard({ question, index, department, onAskAI }: Props) {
               </div>
             )}
           </div>
-          <WhatsAppCTA departmentName={department.name} url={department.whatsappUrl} />
         </div>
       )}
     </article>
