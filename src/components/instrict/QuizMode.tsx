@@ -56,7 +56,7 @@ export function QuizMode({ course, department, onAskAI }: Props) {
     );
   }
 
-  const score = picks.reduce(
+  const score = picks.reduce<number>(
     (acc, p, i) => acc + (p !== null && p === quizQuestions[i].answerIndex ? 1 : 0),
     0,
   );
