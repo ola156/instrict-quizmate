@@ -14,10 +14,14 @@ cpSync("dist/client", ".vercel/output/static", { recursive: true });
 writeFileSync(".vercel/output/config.json", JSON.stringify({
   version: 3,
   routes: [
+    // Serve static assets
     { src: "/assets/(.*)", dest: "/assets/$1" },
+    // Serve root public files like logo.svg, favicon, etc.
+    { handle: "filesystem" },
+    // Everything else goes to the server
     { src: "/(.*)", dest: "/index" }
   ]
-}));
+}, null, 2));
 
 // Write function config
 writeFileSync(".vercel/output/functions/index.func/.vc-config.json", JSON.stringify({
