@@ -6,7 +6,7 @@ export default defineConfig({
   },
   tanstackStart: {
     server: {
-      entry: "server",
+      entry: "server", // keep as-is, nitro wraps it
     },
     serverFns: {
       disableCsrfMiddlewareWarning: true,
