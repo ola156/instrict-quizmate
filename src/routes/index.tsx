@@ -129,7 +129,6 @@ function Index() {
             </div>
             <div>
               <p className="text-sm font-semibold tracking-tight">Instrict.</p>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Past Question Bank</p>
             </div>
           </div>
           <Select value={facultyId} onValueChange={onFacultyChange}>
@@ -142,7 +141,7 @@ function Index() {
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
           <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-primary"><GraduationCap className="h-3.5 w-3.5" /> {faculty.name}</div>
-          <h1 className="mt-3 max-w-2xl text-3xl font-semibold leading-[1.1] tracking-tight sm:text-4xl">Master past questions with Instrict<span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"></span>.</h1>
+          <h1 className="mt-3 max-w-2xl text-3xl font-semibold leading-[1.1] tracking-tight sm:text-4xl">Master past questions with Instrict<span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Past Question Bank</span>.</h1>
         </div>
       </section>
 
