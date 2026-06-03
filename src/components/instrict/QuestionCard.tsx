@@ -1,84 +1,91 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Sparkles, ChevronDown, ChevronUp } from "lucide-react";
+import { CheckCircle2, XCircle } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 import type { Question } from "@/data/instrict";
 
 type Props = {
-  question: Question;
+  question: Question & { type?: "objective" | "theory" | "fill-in-the-gap"; answer?: string };
   index: number;
-  onAskAI: (q: Question) => void;
+  selectedAnswer: string | null;
+  onSelectAnswer: (val: string) => void;
+  showResult?: boolean;
 };
 
-export function QuestionCard({ question, index, onAskAI }: Props) {
-  const [show, setShow] = useState(false);
+export function QuestionCard({ 
+  question, 
+  index, 
+  selectedAnswer, 
+  onSelectAnswer, 
+  showResult = false 
+}: Props) {
+  const type = question.type || "objective";
+  const isCorrect = selectedAnswer === question.answer;
 
   return (
-    <article className="group rounded-2xl border border-border bg-[var(--gradient-card)] p-6 transition-colors hover:border-primary/30">
-      <header className="mb-4 flex items-start justify-between gap-4">
-        <div className="flex items-start gap-3">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background/50 text-xs font-semibold text-primary">
-            {String(index + 1).padStart(2, "0")}
-          </div>
-          <div>
-            <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
-              Past Question · {question.year}
-            </p>
-            <p className="mt-1 text-sm leading-relaxed text-foreground sm:text-[15px]">
-              {question.prompt}
-            </p>
-          </div>
+    <article className="group rounded-2xl border border-border bg-card p-6 shadow-sm">
+      <header className="mb-4 flex items-start gap-4">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border bg-background font-semibold text-primary">
+          {String(index + 1).padStart(2, "0")}
+        </div>
+        {/* Added prose-sm and aggressive margin reset for the prompt */}
+        <div className="text-sm font-medium leading-relaxed pt-1 prose prose-sm dark:prose-invert max-w-none [&_p]:m-0">
+          <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+            {question.prompt}
+          </ReactMarkdown>
         </div>
       </header>
 
-      {question.options && (
-        <ul className="mb-4 ml-11 space-y-1.5 text-sm text-muted-foreground">
-          {question.options.map((opt, i) => (
-            <li key={i} className="flex items-start gap-2">
-              <span className="mt-0.5 text-xs font-mono text-primary/70">{String.fromCharCode(65 + i)}.</span>
-              <span>{opt}</span>
-            </li>
-          ))}
-        </ul>
+      {type === "objective" && (
+        <div className="ml-0 sm:ml-12 space-y-2">
+          {question.options?.map((opt, i) => {
+            let colorClass = "border-border hover:border-primary/50 bg-card";
+            
+            if (showResult) {
+              if (opt === question.answer) {
+                colorClass = "border-green-500 bg-green-500/10 text-green-700 font-semibold";
+              } else if (selectedAnswer === opt && !isCorrect) {
+                colorClass = "border-red-500 bg-red-500/10 text-red-700";
+              }
+            } else if (selectedAnswer === opt) {
+              colorClass = "border-primary bg-primary/10";
+            }
+
+            return (
+              <button
+                key={`${question.id}-${i}`}
+                type="button"
+                disabled={showResult}
+                onClick={() => onSelectAnswer(opt)}
+                className={`w-full text-left p-3 rounded-lg border text-sm transition-all ${colorClass}`}
+              >
+                {/* Simplified structure to ensure text remains inline and clean */}
+                <span className="prose prose-sm dark:prose-invert max-w-none [&_*]:!m-0 [&_*]:!p-0">
+                  <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+                    {opt}
+                  </ReactMarkdown>
+                </span>
+              </button>
+            );
+          })}
+        </div>
       )}
 
-      <div className="ml-11 flex flex-wrap gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setShow((s) => !s)}
-          className="border-border bg-background/40 hover:border-primary/40 hover:bg-primary/10 hover:text-primary"
-        >
-          {show ? <ChevronUp /> : <ChevronDown />}
-          {show ? "Hide Solution" : "Show Solution"}
-        </Button>
-        <Button
-          size="sm"
-          onClick={() => onAskAI(question)}
-          className="bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-[var(--instrict-glow)] hover:opacity-95"
-        >
-          <Sparkles />
-          Ask Instrict AI
-        </Button>
-      </div>
-
-      {show && (
-        <div className="ml-11 mt-4 animate-fade-in">
-          <div className="rounded-xl border border-border bg-background/40 p-4">
-            <p className="text-[10px] font-medium uppercase tracking-widest text-primary">Detailed Solution</p>
-            {question.options && typeof question.answerIndex === "number" && (
-              <p className="mt-2 text-sm">
-                <span className="text-muted-foreground">Correct answer: </span>
-                <span className="font-semibold text-accent">
-                  {String.fromCharCode(65 + question.answerIndex)}. {question.options[question.answerIndex]}
-                </span>
-              </p>
+      {showResult && (
+        <div className="ml-0 sm:ml-12 mt-6 p-4 rounded-xl bg-muted/50 border border-border space-y-2">
+          <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-widest">
+            {isCorrect ? (
+              <><CheckCircle2 className="h-4 w-4 text-green-500" /> Correct</>
+            ) : (
+              <><XCircle className="h-4 w-4 text-red-500" /> Incorrect</>
             )}
-            <p className="mt-3 text-sm leading-relaxed text-foreground/90">{question.solution}</p>
-            {question.formula && (
-              <div className="mt-3 rounded-lg border border-border bg-background/60 px-3 py-2 font-mono text-xs text-accent">
-                {question.formula}
-              </div>
-            )}
+          </div>
+          {/* Consistent prose-sm styling for the solution */}
+          <div className="text-sm text-foreground/80 prose prose-sm dark:prose-invert max-w-none [&_p]:mb-2 [&_p:last-child]:mb-0">
+            <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+              {question.solution || "No explanation provided."}
+            </ReactMarkdown>
           </div>
         </div>
       )}

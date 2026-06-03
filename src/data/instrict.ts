@@ -1,12 +1,15 @@
-export type Question = {
+// --- Types ---
+export interface Question {
   id: string;
-  year: number;
+  courseId: string;
+ set_number: number;
   prompt: string;
-  options?: string[];
-  answerIndex?: number;
   solution: string;
   formula?: string;
-};
+  options?: string[];
+  answerIndex?: number;
+  imageUrl?: string;
+}
 
 export type Course = {
   code: string;
@@ -18,7 +21,6 @@ export type Course = {
 export type Department = {
   id: string;
   name: string;
-  whatsappUrl: string;
   courses: Course[];
 };
 
@@ -26,107 +28,111 @@ export type Faculty = {
   id: string;
   name: string;
   tagline: string;
+  whatsappUrl: string;
   departments: Department[];
 };
 
-const mkQuestions = (seed: string, topic: string): Question[] => [
-  {
-    id: `${seed}-1`,
-    year: 2023,
-    prompt: `State and derive the fundamental principle behind ${topic}, then apply it to a worked example.`,
-    solution: `We start from first principles. The governing relation for ${topic} can be expressed as a balance between the driving quantity and the resisting quantity. Step 1: identify the variables. Step 2: write the conservation law. Step 3: substitute boundary conditions. Step 4: solve and interpret the result in context.`,
-    formula: "Q = ∫₀ᵀ f(x) dx  ⇒  Q ≈ Σ f(xᵢ)Δx",
-  },
-  {
-    id: `${seed}-2`,
-    year: 2022,
-    prompt: `A multiple-choice scenario testing your understanding of ${topic}. Which option best describes the outcome?`,
-    options: [
-      "It increases linearly with time",
-      "It decays exponentially toward equilibrium",
-      "It remains constant under all conditions",
-      "It oscillates with constant amplitude",
-    ],
-    answerIndex: 1,
-    solution: `The system obeys a first-order relaxation, so the response decays exponentially toward equilibrium with characteristic time τ. Plugging the initial condition gives y(t) = y∞ + (y₀ − y∞)e^(−t/τ).`,
-    formula: "y(t) = y∞ + (y₀ − y∞)·e^(−t/τ)",
-  },
-  {
-    id: `${seed}-3`,
-    year: 2021,
-    prompt: `Discuss two real-world applications of ${topic} and outline the assumptions under which the model holds.`,
-    solution: `Application 1: industrial process control where ${topic} predicts the steady-state behaviour. Application 2: laboratory diagnostics where the same model isolates the dominant effect. Key assumptions: linearity in the operating range, negligible higher-order terms, and isolated boundary conditions.`,
-  },
-];
+// --- Helper ---
+const createCourse = (code: string, title: string, level: 100 | 200 | 300 | 400): Course => ({
+  code,
+  title,
+  level,
+  questions: [], // Loaded dynamically
+});
 
-const courseList = (deptCode: string, names: { code: string; title: string; level: 100 | 200 | 300 | 400; topic: string }[]): Course[] =>
-  names.map((c) => ({
-    code: c.code,
-    title: c.title,
-    level: c.level,
-    questions: mkQuestions(`${deptCode}-${c.code}`, c.topic),
-  }));
+// --- Master Course Definitions ---
+const C = {
+  MTH101: createCourse("MTH101", "Elementary Mathematics I", 100),
+  MTH102: createCourse("MTH102", "Elementary Mathematics II", 100),
+  COS101: createCourse("COS101", "Introduction to Computer Science", 100),
+  BIO101: createCourse("BIO101", "General Biology I", 100),
+  PHY101: createCourse("PHY101", "General Physics I (Mechanics)", 100),
+  PHY102: createCourse("PHY102", "General Physics II (Electromagnetism)", 100),
+  PHY103: createCourse("PHY103", "General Physics III", 100),
+  PHY104: createCourse("PHY104", "General Physics IV (Optics)", 100),
+  GEY101: createCourse("GEY101", "Introduction to Geology", 100),
+  GEY102: createCourse("GEY102", "Introduction to Geology II", 100),
+  CHM101: createCourse("CHM101", "General Chemistry I", 100),
+  CHM102: createCourse("CHM102", "General Chemistry II", 100),
+  STA111: createCourse("STA111", "Descriptive Statistics", 100),
+  CHE176: createCourse("CHE176", "General Chemistry II", 100),
+  MAT121: createCourse("MAT121", "Elementary Mathematics I", 100),
+  MAT111: createCourse("MAT111", "Algebra and Trigonometry", 100),
+  STA114: createCourse("STA114", "Introduction to Statistics", 100),
+  PHY108: createCourse("PHY108", "Physics for Science I", 100),
+  PHY118: createCourse("PHY118", "Introduction to Modern Physics", 100),
+  GES101: createCourse("GES101", "Use of English", 100),
+  GES107: createCourse("GES107", "Nigerian Peoples and Culture", 100),
+  GES108: createCourse("GES108", "Philosophy and Logic", 100),
+  BOT111: createCourse("BOT111", "General Biology I", 100),
+  BOT121: createCourse("BOT121", "General Biology II", 100),
+  BOT141: createCourse("BOT141", "Plant Biology", 100),
+  MCB121: createCourse("MCB121", "General Microbiology", 100),
+  ANT115: createCourse("ANT115", "Introduction to Anthropology", 100),
+  ARC111: createCourse("ARC111", "Introduction to Archaeology", 100),
+  MAT141: createCourse("MAT141", "Mathematics for Physical Sciences I", 100),
+  MAT142: createCourse("MAT142", "Mathematics for Physical Sciences II", 100),
+  STA141: createCourse("STA141", "Statistics for Science", 100),
+  TME121: createCourse("TME121", "Technical Drawing", 100),
+};
 
+// --- Faculty Data ---
 export const FACULTIES: Faculty[] = [
   {
     id: "science",
     name: "Faculty of Science",
-    tagline: "Rigorous problem-solving across the natural sciences",
+    tagline: "Natural sciences and mathematics disciplines",
+    whatsappUrl: "https://chat.whatsapp.com/instrict-science",
     departments: [
       {
-        id: "csc",
-        name: "Computer Science",
-        whatsappUrl: "https://chat.whatsapp.com/instrict-csc",
-        courses: courseList("CSC", [
-          { code: "CSC101", title: "Introduction to Computing", level: 100, topic: "binary representation" },
-          { code: "CSC201", title: "Data Structures", level: 200, topic: "linked lists and complexity" },
-          { code: "CSC301", title: "Algorithms", level: 300, topic: "dynamic programming" },
-          { code: "CSC401", title: "Compilers", level: 400, topic: "lexical analysis" },
-        ]),
+        id: "gey",
+        name: "Geology",
+        courses: [C.GEY101, C.GEY102, C.PHY101 , C.PHY102, C.BIO101, C.COS101, C.STA111 , C.CHM101, C.CHM102, C.MAT121, C.MTH101, C.MTH102, C.PHY103, C.PHY104],
       },
       {
         id: "mcb",
         name: "Microbiology",
-        whatsappUrl: "https://chat.whatsapp.com/instrict-mcb",
-        courses: courseList("MCB", [
-          { code: "MCB101", title: "General Microbiology", level: 100, topic: "microbial classification" },
-          { code: "MCB201", title: "Bacteriology", level: 200, topic: "gram staining" },
-          { code: "MCB301", title: "Virology", level: 300, topic: "viral replication cycles" },
-          { code: "MCB401", title: "Industrial Microbiology", level: 400, topic: "fermentation kinetics" },
-        ]),
+        courses: [C.MCB121, C.PHY102, C.BOT141],
       },
       {
         id: "chm",
         name: "Chemistry",
-        whatsappUrl: "https://chat.whatsapp.com/instrict-chm",
-        courses: courseList("CHM", [
-          { code: "CHM101", title: "General Chemistry", level: 100, topic: "stoichiometry" },
-          { code: "CHM201", title: "Organic Chemistry", level: 200, topic: "nucleophilic substitution" },
-          { code: "CHM301", title: "Physical Chemistry", level: 300, topic: "thermodynamic potentials" },
-          { code: "CHM401", title: "Analytical Chemistry", level: 400, topic: "spectroscopic analysis" },
-        ]),
+        courses: [C.BOT111, C.TME121, C.BOT141, C.CHE176, C.MCB121],
       },
       {
-        id: "geo",
-        name: "Geology",
-        whatsappUrl: "https://chat.whatsapp.com/instrict-geo",
-        courses: courseList("GEO", [
-          { code: "GEO101", title: "Earth Materials", level: 100, topic: "mineral identification" },
-          { code: "GEO201", title: "Structural Geology", level: 200, topic: "stress and strain in rocks" },
-          { code: "GEO301", title: "Petrology", level: 300, topic: "igneous rock formation" },
-          { code: "GEO401", title: "Petroleum Geology", level: 400, topic: "hydrocarbon migration" },
-        ]),
+        id: "mat",
+        name: "Mathematics",
+        courses: [C.MAT121, C.MAT111,  C.PHY102, C.PHY103, C.PHY118, C.STA114, C.MAT141, C.MAT142, C.PHY104],
       },
-      {
+       {
+        id: "bot",
+        name: "Botany",
+        courses: [C.BOT111, C.BOT121, C.BOT141],
+      },
+       {
+        id: "zoo",
+        name: "Zoology",
+        courses: [C.MAT121, C.MAT111, C.PHY102, C.PHY103, C.PHY118, C.STA114, C.MAT141, C.MAT142, C.PHY104],
+      },
+       {
         id: "phy",
         name: "Physics",
-        whatsappUrl: "https://chat.whatsapp.com/instrict-phy",
-        courses: courseList("PHY", [
-          { code: "PHY101", title: "Mechanics", level: 100, topic: "projectile motion" },
-          { code: "PHY201", title: "Electromagnetism", level: 200, topic: "Gauss's law" },
-          { code: "PHY301", title: "Quantum Mechanics", level: 300, topic: "Schrödinger's equation" },
-          { code: "PHY401", title: "Solid State Physics", level: 400, topic: "band theory" },
-        ]),
+        courses: [C.MAT121, C.MAT111, C.PHY102, C.PHY103, C.PHY118, C.STA114, C.MAT141, C.MAT142, C.PHY104,]
+      },
+       {
+        id: "sta",
+        name: "Statistics",
+        courses: [C.MAT121, C.MAT111,  C.PHY102, C.PHY103, C.PHY118, C.STA114, C.MAT141, C.MAT142, C.PHY104, ],
+      },
+       {
+        id: "Arc",
+        name: "Archaeology and Anthropology",
+        courses: [C.MAT121, C.MAT111, C.PHY102, C.PHY103, C.PHY118, C.STA114, C.MAT141, C.MAT142, C.PHY104,]
+      },
+       {
+        id: "geo",
+        name: "Geography",
+        courses: [C.MAT121, C.MAT111,C.PHY102, C.PHY103, C.PHY118, C.STA114, C.MAT141, C.MAT142, C.PHY104, ],
       },
     ],
   },
@@ -134,74 +140,12 @@ export const FACULTIES: Faculty[] = [
     id: "technology",
     name: "Faculty of Technology",
     tagline: "Engineering and applied technology disciplines",
+     whatsappUrl: "https://chat.whatsapp.com/instrict-technology",
     departments: [
       {
         id: "mee",
         name: "Mechanical Engineering",
-        whatsappUrl: "https://chat.whatsapp.com/instrict-mee",
-        courses: courseList("MEE", [
-          { code: "MEE201", title: "Engineering Mechanics", level: 200, topic: "free body diagrams" },
-          { code: "MEE301", title: "Thermodynamics", level: 300, topic: "the second law" },
-          { code: "MEE401", title: "Machine Design", level: 400, topic: "fatigue failure" },
-        ]),
-      },
-      {
-        id: "eee",
-        name: "Electrical Engineering",
-        whatsappUrl: "https://chat.whatsapp.com/instrict-eee",
-        courses: courseList("EEE", [
-          { code: "EEE201", title: "Circuit Theory", level: 200, topic: "Kirchhoff's laws" },
-          { code: "EEE301", title: "Signals and Systems", level: 300, topic: "Fourier transforms" },
-          { code: "EEE401", title: "Power Systems", level: 400, topic: "load flow analysis" },
-        ]),
-      },
-    ],
-  },
-  {
-    id: "arts",
-    name: "Faculty of Arts",
-    tagline: "Humanities, languages and critical thought",
-    departments: [
-      {
-        id: "eng",
-        name: "English & Literature",
-        whatsappUrl: "https://chat.whatsapp.com/instrict-eng",
-        courses: courseList("ENG", [
-          { code: "ENG101", title: "Use of English", level: 100, topic: "rhetorical devices" },
-          { code: "ENG301", title: "Literary Criticism", level: 300, topic: "post-colonial theory" },
-        ]),
-      },
-      {
-        id: "his",
-        name: "History",
-        whatsappUrl: "https://chat.whatsapp.com/instrict-his",
-        courses: courseList("HIS", [
-          { code: "HIS201", title: "African History", level: 200, topic: "pre-colonial trade networks" },
-        ]),
-      },
-    ],
-  },
-  {
-    id: "social",
-    name: "Faculty of Social Sciences",
-    tagline: "Society, economy and human behaviour",
-    departments: [
-      {
-        id: "eco",
-        name: "Economics",
-        whatsappUrl: "https://chat.whatsapp.com/instrict-eco",
-        courses: courseList("ECO", [
-          { code: "ECO101", title: "Microeconomics", level: 100, topic: "supply and demand equilibrium" },
-          { code: "ECO301", title: "Macroeconomics", level: 300, topic: "IS–LM analysis" },
-        ]),
-      },
-      {
-        id: "psy",
-        name: "Psychology",
-        whatsappUrl: "https://chat.whatsapp.com/instrict-psy",
-        courses: courseList("PSY", [
-          { code: "PSY201", title: "Cognitive Psychology", level: 200, topic: "memory encoding" },
-        ]),
+        courses: [createCourse("MEE201", "Engineering Mechanics", 200)],
       },
     ],
   },

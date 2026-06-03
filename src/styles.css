@@ -1,6 +1,8 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+/* Add this to the top of your globals.css */
+@import "katex/dist/katex.min.css";
 
 @custom-variant dark (&:is(.dark *));
 
