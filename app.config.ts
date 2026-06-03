@@ -1,8 +1,13 @@
-// app.config.ts
-import { defineConfig } from '@tanstack/start/config'
+import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
-  server: {
-    preset: 'vercel',
+  tanstackStart: {
+    server: { 
+      entry: "server",
+      preset: "vercel", // This is mandatory for Vercel
+    },
+    serverFns: {
+      disableCsrfMiddlewareWarning: true,
+    },
   },
-})
+});
