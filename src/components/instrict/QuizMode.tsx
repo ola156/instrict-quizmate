@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { 
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -10,9 +10,19 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Clock, RotateCw, Trophy, Play, Timer, ArrowLeft, ArrowRight, CheckCircle2, XCircle } from "lucide-react";
+import {
+  Clock,
+  RotateCw,
+  Trophy,
+  Play,
+  Timer,
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  XCircle,
+} from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -31,10 +41,20 @@ type Props = {
 
 const PRESETS = [10, 20, 30];
 
-export function QuizMode({ course, department, faculty, facultyName, year, questions }: Props) {
+export function QuizMode({
+  course,
+  department,
+  faculty,
+  facultyName,
+  year,
+  questions,
+}: Props) {
   const quizQuestions = useMemo(
-    () => questions.filter((q) => q.options && q.options.length > 0 && typeof q.answer === "string"),
-    [questions],
+    () =>
+      questions.filter(
+        (q) => q.options && q.options.length > 0 && typeof q.answer === "string"
+      ),
+    [questions]
   );
 
   const theoryCount = questions.length - quizQuestions.length;
@@ -52,7 +72,10 @@ export function QuizMode({ course, department, faculty, facultyName, year, quest
   // Markdown utility for math support
   const Markdown = ({ content }: { content: string }) => (
     <div className="prose prose-sm dark:prose-invert max-w-none [&_p]:m-0">
-      <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+      <ReactMarkdown
+        remarkPlugins={[remarkMath]}
+        rehypePlugins={[rehypeKatex]}
+      >
         {content}
       </ReactMarkdown>
     </div>
@@ -80,7 +103,8 @@ export function QuizMode({ course, department, faculty, facultyName, year, quest
       <div className="rounded-2xl border border-dashed border-border bg-card/40 p-10 text-center">
         <p className="text-sm text-muted-foreground">
           No multiple-choice questions configured for {course.code}
-          {year !== "all" ? ` (${year})` : ""} yet. Try switching to Study Mode to read the theory materials.
+          {year !== "all" ? ` (${year})` : ""} yet. Try switching to Study Mode
+          to read the theory materials.
         </p>
       </div>
     );
@@ -94,9 +118,12 @@ export function QuizMode({ course, department, faculty, facultyName, year, quest
           <Timer className="h-3.5 w-3.5" /> CBT Quiz Setup Engine
         </div>
         <div>
-          <h3 className="text-2xl font-semibold tracking-tight">Configure Your Examination</h3>
+          <h3 className="text-2xl font-semibold tracking-tight">
+            Configure Your Examination
+          </h3>
           <p className="mt-1 text-sm text-muted-foreground">
-            Simulate realistic timed testing environments. Answers will be sealed until you submit.
+            Simulate realistic timed testing environments. Answers will be sealed
+            until you submit.
           </p>
         </div>
 
@@ -105,13 +132,22 @@ export function QuizMode({ course, department, faculty, facultyName, year, quest
           <Meta label="Department" value={department.name} />
           <Meta label="Course Code" value={course.code} sub={course.title} />
           <Meta label="Class Level" value={`${course.level}L`} />
-          <Meta label="Session Year" value={year === "all" ? "All Archives" : `${year} Exam`} />
-          <Meta label="OBJ Pools" value={`${quizQuestions.length} Questions`} accent />
+          <Meta
+            label="Session Year"
+            value={year === "all" ? "All Archives" : `${year} Exam`}
+          />
+          <Meta
+            label="OBJ Pools"
+            value={`${quizQuestions.length} Questions`}
+            accent
+          />
         </div>
 
         {theoryCount > 0 && (
           <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-3.5 text-xs text-amber-500/90">
-            <strong>Notice:</strong> We omitted {theoryCount} essay/theory question profiles from this session. You can review written questions inside Study Mode.
+            <strong>Notice:</strong> We omitted {theoryCount} essay/theory
+            question profiles from this session. You can review written questions
+            inside Study Mode.
           </div>
         )}
 
@@ -150,7 +186,9 @@ export function QuizMode({ course, department, faculty, facultyName, year, quest
                 }}
                 className="w-16 bg-transparent text-xs text-foreground outline-none placeholder:text-muted-foreground font-medium"
               />
-              <span className="text-xs text-muted-foreground font-medium">mins</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                mins
+              </span>
             </div>
           </div>
         </div>
@@ -174,8 +212,9 @@ export function QuizMode({ course, department, faculty, facultyName, year, quest
   // --- PHASE 2: SCOREBOARD POST-EXAM SUMMARY & REVIEW ENGINE ---
   if (phase === "done") {
     const score = picks.reduce<number>(
-      (acc, p, i) => acc + (p !== null && p === quizQuestions[i].answer ? 1 : 0),
-      0,
+      (acc, p, i) =>
+        acc + (p !== null && p === quizQuestions[i].answer ? 1 : 0),
+      0
     );
     const pct = Math.round((score / quizQuestions.length) * 100);
 
@@ -186,21 +225,32 @@ export function QuizMode({ course, department, faculty, facultyName, year, quest
             <Trophy className="h-6 w-6 text-primary-foreground" />
           </div>
           <div>
-            <h3 className="text-2xl font-bold tracking-tight">Performance Scorecard</h3>
+            <h3 className="text-2xl font-bold tracking-tight">
+              Performance Scorecard
+            </h3>
             <p className="text-sm text-muted-foreground mt-0.5">
               {course.code} — {course.title}
             </p>
           </div>
 
           <div className="grid grid-cols-3 gap-3 max-w-md mx-auto pt-2">
-            <Stat label="Total Score" value={`${score} / ${quizQuestions.length}`} />
+            <Stat
+              label="Total Score"
+              value={`${score} / ${quizQuestions.length}`}
+            />
             <Stat label="Accuracy Rate" value={`${pct}%`} accent />
-            <Stat label="Time Taken" value={`${Math.max(0, durationMin - Math.ceil(time / 60))} mins`} />
+            <Stat
+              label="Time Taken"
+              value={`${Math.max(
+                0,
+                durationMin - Math.ceil(time / 60)
+              )} mins`}
+            />
           </div>
 
           <div className="flex flex-wrap justify-center gap-3 pt-4">
-            <Button 
-              variant={isReviewing ? "secondary" : "default"} 
+            <Button
+              variant={isReviewing ? "secondary" : "default"}
               onClick={() => {
                 setIdx(0);
                 setIsReviewing(true);
@@ -209,13 +259,20 @@ export function QuizMode({ course, department, faculty, facultyName, year, quest
             >
               Review Corrections
             </Button>
-            <Button variant="outline" onClick={() => setPhase("setup")} className="text-xs font-semibold">
+            <Button
+              variant="outline"
+              onClick={() => setPhase("setup")}
+              className="text-xs font-semibold"
+            >
               <RotateCw className="h-3.5 w-3.5 mr-1.5" /> Re-take New Quiz
             </Button>
           </div>
 
           <div className="mt-6 text-left max-w-2xl mx-auto border-t border-border/60 pt-6">
-            <WhatsAppCTA departmentName={faculty.name} url={faculty.whatsappUrl} />
+            <WhatsAppCTA
+              departmentName={faculty.name}
+              url={faculty.whatsappUrl}
+            />
           </div>
         </div>
 
@@ -229,30 +286,61 @@ export function QuizMode({ course, department, faculty, facultyName, year, quest
               const isCorrect = studentPick === question.answer;
 
               return (
-                <div key={question.id} className={`rounded-xl border p-5 bg-card space-y-3 ${isCorrect ? "border-emerald-500/30" : "border-destructive/30"}`}>
+                <div
+                  key={question.id}
+                  className={`rounded-xl border p-5 bg-card space-y-3 ${
+                    isCorrect ? "border-emerald-500/30" : "border-destructive/30"
+                  }`}
+                >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-2.5">
-                      <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold ${isCorrect ? "bg-emerald-500/10 text-emerald-500" : "bg-destructive/10 text-destructive"}`}>
+                      <span
+                        className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold ${
+                          isCorrect
+                            ? "bg-emerald-500/10 text-emerald-500"
+                            : "bg-destructive/10 text-destructive"
+                        }`}
+                      >
                         {qIdx + 1}
                       </span>
-                      <div className="text-sm font-medium text-foreground leading-relaxed pt-0.5"><Markdown content={question.prompt} /></div>
+                      <div className="text-sm font-medium text-foreground leading-relaxed pt-0.5">
+                        <Markdown content={question.prompt} />
+                      </div>
                     </div>
                     {isCorrect ? (
-                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full"><CheckCircle2 className="h-3 w-3" /> Correct</span>
+                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                        <CheckCircle2 className="h-3 w-3" /> Correct
+                      </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-destructive bg-destructive/10 px-2 py-0.5 rounded-full"><XCircle className="h-3 w-3" /> Failed</span>
+                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-destructive bg-destructive/10 px-2 py-0.5 rounded-full">
+                        <XCircle className="h-3 w-3" /> Failed
+                      </span>
                     )}
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pl-8 text-xs">
                     <div className="p-2 rounded-lg bg-background border border-border">
-                      <span className="text-muted-foreground block font-medium">Your Selection:</span>
-                      <div className={studentPick !== null ? "font-semibold" : "font-semibold text-muted-foreground italic"}>
-                        {studentPick !== null ? <Markdown content={studentPick} /> : "No choice logged"}
+                      <span className="text-muted-foreground block font-medium">
+                        Your Selection:
+                      </span>
+                      <div
+                        className={
+                          studentPick !== null
+                            ? "font-semibold"
+                            : "font-semibold text-muted-foreground italic"
+                        }
+                      >
+                        {studentPick !== null ? (
+                          <Markdown content={studentPick} />
+                        ) : (
+                          "No choice logged"
+                        )}
                       </div>
                     </div>
                     <div className="p-2 rounded-lg bg-emerald-500/5 border border-emerald-500/10">
-                      <span className="text-emerald-500 block font-medium">Official Solution Key:</span>
+                      <span className="text-emerald-500 block font-medium">
+                        Official Solution Key:
+                      </span>
                       <div className="font-semibold text-emerald-600 dark:text-emerald-400">
                         <Markdown content={question.answer!} />
                       </div>
@@ -260,8 +348,12 @@ export function QuizMode({ course, department, faculty, facultyName, year, quest
                   </div>
 
                   <div className="pl-8 pt-1 text-xs text-muted-foreground leading-relaxed">
-                    <strong className="text-foreground font-semibold block mb-0.5">Solution Logic:</strong>
-                    <Markdown content={question.solution || "No explanation provided."} />
+                    <strong className="text-foreground font-semibold block mb-0.5">
+                      Solution Logic:
+                    </strong>
+                    <Markdown
+                      content={question.solution || "No explanation provided."}
+                    />
                   </div>
                 </div>
               );
@@ -291,12 +383,22 @@ export function QuizMode({ course, department, faculty, facultyName, year, quest
           <span>
             Question <strong className="text-foreground font-bold">{idx + 1}</strong> of {quizQuestions.length}
           </span>
-          <span className={`flex items-center gap-1.5 font-mono font-bold px-2.5 py-1 rounded-md border ${time <= 60 ? "text-destructive border-destructive/20 bg-destructive/5 animate-pulse" : "text-primary border-primary/10 bg-primary/5"}`}>
+          <span
+            className={`flex items-center gap-1.5 font-mono font-bold px-2.5 py-1 rounded-md border ${
+              time <= 60
+                ? "text-destructive border-destructive/20 bg-destructive/5 animate-pulse"
+                : "text-primary border-primary/10 bg-primary/5"
+            }`}
+          >
             <Clock className="h-3.5 w-3.5" />
-            {String(Math.floor(time / 60)).padStart(2, "0")}:{String(time % 60).padStart(2, "0")}
+            {String(Math.floor(time / 60)).padStart(2, "0")}:
+            {String(time % 60).padStart(2, "0")}
           </span>
         </div>
-        <Progress value={((idx + 1) / quizQuestions.length) * 100} className="h-1.5 bg-border/40" />
+        <Progress
+          value={((idx + 1) / quizQuestions.length) * 100}
+          className="h-1.5 bg-border/40"
+        />
       </div>
 
       <div className="flex flex-wrap gap-1.5 border-y border-border/60 py-3">
@@ -337,12 +439,18 @@ export function QuizMode({ course, department, faculty, facultyName, year, quest
                     : "border-border bg-background/40 text-muted-foreground hover:border-primary/30 hover:bg-background/80 hover:text-foreground"
                 }`}
               >
-                <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-[11px] font-mono font-bold transition-colors ${
-                  isSelected ? "bg-primary text-primary-foreground" : "bg-background border border-border group-hover:border-primary/40 text-muted-foreground"
-                }`}>
+                <span
+                  className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-[11px] font-mono font-bold transition-colors ${
+                    isSelected
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-background border border-border group-hover:border-primary/40 text-muted-foreground"
+                  }`}
+                >
                   {String.fromCharCode(65 + i)}
                 </span>
-                <span className="font-medium pt-0.5"><Markdown content={opt} /></span>
+                <span className="font-medium pt-0.5">
+                  <Markdown content={opt} />
+                </span>
               </button>
             );
           })}
@@ -373,11 +481,18 @@ export function QuizMode({ course, department, faculty, facultyName, year, quest
             </AlertDialogTrigger>
             <AlertDialogContent className="border border-border bg-[var(--gradient-card)] shadow-xl rounded-2xl">
               <AlertDialogHeader>
-                <AlertDialogTitle className="text-xl font-bold tracking-tight">Finish Examination?</AlertDialogTitle>
+                <AlertDialogTitle className="text-xl font-bold tracking-tight">
+                  Finish Examination?
+                </AlertDialogTitle>
                 <AlertDialogDescription className="text-sm text-muted-foreground">
                   {unansweredCount > 0 ? (
                     <span>
-                      You still have <strong className="text-destructive font-semibold">{unansweredCount} unanswered</strong> questions left. Are you sure you want to grade your paper now?
+                      You still have{" "}
+                      <strong className="text-destructive font-semibold">
+                        {unansweredCount} unanswered
+                      </strong>{" "}
+                      questions left. Are you sure you want to grade your paper
+                      now?
                     </span>
                   ) : (
                     "All choices have been locked. Are you ready to submit your exam to the portal for final scoring?"
@@ -418,9 +533,13 @@ export function QuizMode({ course, department, faculty, facultyName, year, quest
               </AlertDialogTrigger>
               <AlertDialogContent className="border border-border bg-[var(--gradient-card)] shadow-xl rounded-2xl">
                 <AlertDialogHeader>
-                  <AlertDialogTitle className="text-xl font-bold tracking-tight">Confirm Submission</AlertDialogTitle>
+                  <AlertDialogTitle className="text-xl font-bold tracking-tight">
+                    Confirm Submission
+                  </AlertDialogTitle>
                   <AlertDialogDescription className="text-sm text-muted-foreground">
-                    You have reached the end of the question pool. Click submit to calculate your final grade or cancel to check over your responses.
+                    You have reached the end of the question pool. Click submit to
+                    calculate your final grade or cancel to check over your
+                    responses.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className="gap-2 sm:gap-0 mt-4">
@@ -443,23 +562,59 @@ export function QuizMode({ course, department, faculty, facultyName, year, quest
   );
 }
 
-function Meta({ label, value, sub, accent }: { label: string; value: string; sub?: string; accent?: boolean }) {
+function Meta({
+  label,
+  value,
+  sub,
+  accent,
+}: {
+  label: string;
+  value: string;
+  sub?: string;
+  accent?: boolean;
+}) {
   return (
     <div className="rounded-xl border border-border bg-background/40 p-3 flex flex-col justify-center min-w-0">
-      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{label}</p>
-      <p className={`mt-0.5 truncate text-xs font-semibold ${accent ? "text-primary" : "text-foreground"}`}>
+      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+        {label}
+      </p>
+      <p
+        className={`mt-0.5 truncate text-xs font-semibold ${
+          accent ? "text-primary" : "text-foreground"
+        }`}
+      >
         {value}
       </p>
-      {sub && <p className="mt-0.5 truncate text-[10px] text-muted-foreground leading-tight">{sub}</p>}
+      {sub && (
+        <p className="mt-0.5 truncate text-[10px] text-muted-foreground leading-tight">
+          {sub}
+        </p>
+      )}
     </div>
   );
 }
 
-function Stat({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+function Stat({
+  label,
+  value,
+  accent,
+}: {
+  label: string;
+  value: string;
+  accent?: boolean;
+}) {
   return (
     <div className="rounded-xl border border-border bg-background/50 p-3 sm:p-4 text-center">
-      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{label}</p>
-      <p className={`mt-1 text-base sm:text-xl font-bold tracking-tight ${accent ? "text-primary" : "text-foreground"}`}>{value}</p>
+      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+        {label}
+      </p>
+      <p
+        className={`mt-1 text-base sm:text-xl font-bold tracking-tight ${
+          accent ? "text-primary" : "text-foreground"
+        }`}
+      >
+        {value}
+      </p>
     </div>
   );
 }

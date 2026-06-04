@@ -11,6 +11,10 @@ type Props = {
   selectedAnswer: string | null;
   onSelectAnswer: (val: string) => void;
   showResult?: boolean;
+  onPromptChange?: (val: string) => void;
+  onOptionChange?: (optIdx: number, val: string) => void;
+  onSolutionChange?: (val: string) => void;
+  onAnswerChange?: (val: string) => void;
 };
 
 export function QuestionCard({ 
@@ -18,75 +22,110 @@ export function QuestionCard({
   index, 
   selectedAnswer, 
   onSelectAnswer, 
-  showResult = false 
+  showResult = false,
+  onPromptChange,
+  onOptionChange,
+  onSolutionChange,
+  onAnswerChange
 }: Props) {
   const type = question.type || "objective";
   const isCorrect = selectedAnswer === question.answer;
+  const isAdmin = !!onPromptChange;
 
   return (
     <article className="group rounded-2xl border border-border bg-card p-6 shadow-sm">
-      <header className="mb-4 flex items-start gap-4">
+      <header className="mb-6 flex items-start gap-4">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border bg-background font-semibold text-primary">
           {String(index + 1).padStart(2, "0")}
         </div>
-        {/* Added prose-sm and aggressive margin reset for the prompt */}
-        <div className="text-sm font-medium leading-relaxed pt-1 prose prose-sm dark:prose-invert max-w-none [&_p]:m-0">
-          <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
-            {question.prompt}
-          </ReactMarkdown>
+        
+        <div className="flex-1">
+          {isAdmin ? (
+            <textarea 
+              value={question.prompt} 
+              onChange={(e) => onPromptChange!(e.target.value)}
+              className="w-full p-3 border rounded-lg bg-background text-sm"
+              rows={3}
+            />
+          ) : (
+            <div className="prose prose-sm dark:prose-invert max-w-none [&_p]:m-0">
+              <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+                {question.prompt}
+              </ReactMarkdown>
+            </div>
+          )}
         </div>
       </header>
 
       {type === "objective" && (
-        <div className="ml-0 sm:ml-12 space-y-2">
+        <div className="ml-0 sm:ml-12 space-y-3">
           {question.options?.map((opt, i) => {
+            const isSelected = isAdmin ? question.answer === opt : selectedAnswer === opt;
+            const isCorrectAnswer = opt === question.answer;
             let colorClass = "border-border hover:border-primary/50 bg-card";
             
-            if (showResult) {
-              if (opt === question.answer) {
-                colorClass = "border-green-500 bg-green-500/10 text-green-700 font-semibold";
-              } else if (selectedAnswer === opt && !isCorrect) {
-                colorClass = "border-red-500 bg-red-500/10 text-red-700";
-              }
-            } else if (selectedAnswer === opt) {
-              colorClass = "border-primary bg-primary/10";
+            if (showResult && !isAdmin) {
+              if (isCorrectAnswer) colorClass = "border-green-500 bg-green-500/10 text-green-700 font-semibold";
+              else if (isSelected && !isCorrect) colorClass = "border-red-500 bg-red-500/10 text-red-700";
+            } else if (isSelected) {
+              colorClass = isAdmin ? "border-green-500 bg-green-500/10" : "border-primary bg-primary/10";
             }
 
             return (
-              <button
-                key={`${question.id}-${i}`}
-                type="button"
-                disabled={showResult}
-                onClick={() => onSelectAnswer(opt)}
-                className={`w-full text-left p-3 rounded-lg border text-sm transition-all ${colorClass}`}
-              >
-                {/* Simplified structure to ensure text remains inline and clean */}
-                <span className="prose prose-sm dark:prose-invert max-w-none [&_*]:!m-0 [&_*]:!p-0">
-                  <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
-                    {opt}
-                  </ReactMarkdown>
-                </span>
-              </button>
+              <div key={i} className="flex gap-2 items-center">
+                {isAdmin ? (
+                  <input 
+                    value={opt} 
+                    onChange={(e) => onOptionChange!(i, e.target.value)} 
+                    className="flex-1 p-3 rounded-lg border border-border text-sm"
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    disabled={showResult}
+                    onClick={() => onSelectAnswer(opt)}
+                    className={`w-full text-left p-4 rounded-xl border text-sm transition-all ${colorClass}`}
+                  >
+                    <div className="prose prose-sm dark:prose-invert max-w-none [&_p]:m-0">
+                      <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+                        {opt}
+                      </ReactMarkdown>
+                    </div>
+                  </button>
+                )}
+                {isAdmin && (
+                  <button onClick={() => onAnswerChange!(opt)} className={isCorrectAnswer ? "text-green-600" : "text-gray-300"}>
+                    <CheckCircle2 className="h-6 w-6" />
+                  </button>
+                )}
+              </div>
             );
           })}
         </div>
       )}
 
-      {showResult && (
-        <div className="ml-0 sm:ml-12 mt-6 p-4 rounded-xl bg-muted/50 border border-border space-y-2">
-          <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-widest">
-            {isCorrect ? (
-              <><CheckCircle2 className="h-4 w-4 text-green-500" /> Correct</>
-            ) : (
-              <><XCircle className="h-4 w-4 text-red-500" /> Incorrect</>
-            )}
-          </div>
-          {/* Consistent prose-sm styling for the solution */}
-          <div className="text-sm text-foreground/80 prose prose-sm dark:prose-invert max-w-none [&_p]:mb-2 [&_p:last-child]:mb-0">
-            <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
-              {question.solution || "No explanation provided."}
-            </ReactMarkdown>
-          </div>
+      {(showResult || isAdmin) && (
+        <div className="ml-0 sm:ml-12 mt-6 p-5 rounded-2xl bg-muted/30 border border-border/50">
+          {!isAdmin && (
+            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-widest mb-3">
+              {isCorrect ? <><CheckCircle2 className="h-4 w-4 text-green-500" /> Correct</> : <><XCircle className="h-4 w-4 text-red-500" /> Incorrect</>}
+            </div>
+          )}
+          
+          {isAdmin ? (
+            <textarea 
+              value={question.solution || ""} 
+              onChange={(e) => onSolutionChange!(e.target.value)}
+              className="w-full p-3 border rounded-lg text-sm bg-background"
+              rows={3}
+            />
+          ) : (
+            <div className="prose prose-sm dark:prose-invert max-w-none [&_p]:m-0">
+              <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+                {question.solution || "No explanation provided."}
+              </ReactMarkdown>
+            </div>
+          )}
         </div>
       )}
     </article>

@@ -74,6 +74,7 @@ const C = {
   MAT142: createCourse("MAT142", "Mathematics for Physical Sciences II", 100),
   STA141: createCourse("STA141", "Statistics for Science", 100),
   TME121: createCourse("TME121", "Technical Drawing", 100),
+  CSC101: createCourse("CSC101", "Introduction to Computer Science", 100),
 };
 
 // --- Faculty Data ---
@@ -97,7 +98,7 @@ export const FACULTIES: Faculty[] = [
       {
         id: "chm",
         name: "Chemistry",
-        courses: [C.BOT111, C.TME121, C.BOT141, C.CHE176, C.MCB121],
+        courses: [C.BOT111, C.CSC101, C.BOT141, C.CHE176, C.MCB121],
       },
       {
         id: "mat",

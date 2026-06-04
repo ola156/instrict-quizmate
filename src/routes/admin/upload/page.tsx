@@ -19,7 +19,6 @@ const questionSchema = z.object({
   type: z.enum(["objective", "theory", "fill-in-the-gap"]),
   formula: z.string().optional(),
   options: z.array(z.string()).optional(),
-  answerIndex: z.coerce.number().optional(),
   answer: z.string().optional(),
 });
 
@@ -55,21 +54,18 @@ function AdminUploadPage() {
   const handleSaveToSupabase = async (data: AdminFormValues) => {
     setIsSaving(true);
     try {
-      // Mapping to match your database column names and include the set_number
       const payload = data.questions.map((q) => ({
         course_id: data.courseId,
         prompt: q.prompt,
         solution: q.solution,
         type: q.type,
         options: q.options,
-        answer_index: q.answerIndex,
         answer: q.answer,
         formula: q.formula,
-        set_number: setNumber, // Ensure this column exists in Supabase
+        set_number: setNumber,
       }));
 
       const { error } = await supabase.from('questions').insert(payload);
-
       if (error) throw error;
 
       alert(`Successfully saved as Set PQ ${setNumber}!`);
@@ -100,7 +96,6 @@ function AdminUploadPage() {
         solution: q.solution || "",
         type: q.type || "theory",
         options: q.options || [],
-        answerIndex: q.answerIndex ?? 0,
         answer: q.answer || "",
         formula: q.formula || "",
       }));
@@ -138,13 +133,8 @@ function AdminUploadPage() {
             </div>
 
             <div>
-              <label className="text-xs font-bold uppercase">Set Number (e.g. 1 for PQ 1)</label>
-              <Input 
-                type="number" 
-                value={setNumber} 
-                onChange={(e) => setSetNumber(Number(e.target.value))} 
-                className="mt-1"
-              />
+              <label className="text-xs font-bold uppercase">Set Number</label>
+              <Input type="number" value={setNumber} onChange={(e) => setSetNumber(Number(e.target.value))} className="mt-1" />
             </div>
             
             <UploadCloud className="h-8 w-8 mx-auto text-primary" />
@@ -179,10 +169,6 @@ function AdminUploadPage() {
               <QuestionCard
                 question={field as any}
                 index={index}
-                selectedAnswer={field.answerIndex ?? null}
-                showTheorySolution={true}
-                onRevealTheory={() => {}}
-                onSelectAnswer={(idx) => update(index, { ...field, answerIndex: idx })}
                 onPromptChange={(val) => update(index, { ...field, prompt: val })}
                 onSolutionChange={(val) => update(index, { ...field, solution: val })}
                 onOptionChange={(optIdx, val) => {
@@ -190,9 +176,7 @@ function AdminUploadPage() {
                   newOptions[optIdx] = val;
                   update(index, { ...field, options: newOptions });
                 }}
-                onAnswerIndexChange={(idx) => update(index, { ...field, answerIndex: idx })}
                 onAnswerChange={(val) => update(index, { ...field, answer: val })}
-                onAskAI={(q) => console.log("Re-generating:", q)}
               />
             </div>
           ))}
