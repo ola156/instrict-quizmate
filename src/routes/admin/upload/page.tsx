@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2, Sparkles, UploadCloud, Trash2, Save } from "lucide-react";
 import { QuestionCard } from "@/components/instrict/QuestionCard";
-import { FACULTIES } from '@/data/instrict';
+import { C } from '@/data/instrict';
 import { supabase } from "@/lib/supabase";
 
 const questionSchema = z.object({
@@ -39,7 +39,7 @@ function AdminUploadPage() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [setNumber, setSetNumber] = useState<number>(1);
 
-  const allCourses = FACULTIES.flatMap((f) => f.departments.flatMap((d) => d.courses));
+  const allCourses = Object.values(C);
 
   const form = useForm<AdminFormValues>({
     resolver: zodResolver(adminFormSchema),
@@ -111,7 +111,7 @@ function AdminUploadPage() {
   return (
     <div className="container mx-auto p-6 space-y-8 max-w-7xl">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Content Ingestion Panel</h1>
+        <h1 className="text-md md:text-3xl font-bold">Content Ingestion Panel</h1>
         {fields.length > 0 && (
           <Button onClick={form.handleSubmit(handleSaveToSupabase)} disabled={isSaving}>
             {isSaving ? <Loader2 className="animate-spin mr-2" /> : <Save className="mr-2" />}

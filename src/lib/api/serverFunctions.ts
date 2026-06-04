@@ -22,11 +22,21 @@ For EACH question, return a JSON object with this structure:
   "prompt": string,
   "type": "objective" | "theory" | "fill-in-the-gap",
   "options": string[] | null,
-  "answer": string, // Correct answer or fill-in-the-gap word
+  "answer": string,
   "formula": string | null,
-  "solution": string // Step-by-step explanation
+  "solution": string
 }
-Return a JSON array of these objects. Provide valid JSON only.
+
+CRITICAL FORMATTING RULES:
+1. All mathematical expressions and scientific values must be wrapped in LaTeX delimiters: use '$' for inline math and '$$' for block equations.
+2. Convert plain-text math symbols to LaTeX commands:
+   - Use '\\pi' for π.
+   - Use '\\frac{a}{b}' for fractions.
+   - Use '\\times' for multiplication symbols (do not use '*').
+   - Use '^' for exponents (e.g., 'T^2').
+3. Wrap all units in '\\text{...}' (e.g., '\\text{ m/s}^2') to prevent them from being italicized by the math engine.
+4. The 'solution' field must show step-by-step logic using these LaTeX formatting rules.
+5. Provide valid JSON only. Do not include markdown code blocks (e.g., \`\`\`json) in your response.
 `;
 
     const response = await ai.models.generateContent({

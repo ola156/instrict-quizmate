@@ -4,6 +4,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import type { Question } from "@/data/instrict";
+import { cn } from "@/lib/utils";
 
 type Props = {
   question: Question & { type?: "objective" | "theory" | "fill-in-the-gap"; answer?: string };
@@ -16,6 +17,15 @@ type Props = {
   onSolutionChange?: (val: string) => void;
   onAnswerChange?: (val: string) => void;
 };
+
+// Reusable Markdown wrapper to ensure consistent style and readability
+const MarkdownRenderer = ({ content }: { content: string }) => (
+  <div className="prose prose-sm dark:prose-invert max-w-none [&_p]:m-0 [&_p]:leading-relaxed [&_code]:bg-transparent [&_code]:p-0 [&_code]:before:content-none [&_code]:after:content-none">
+    <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+      {content}
+    </ReactMarkdown>
+  </div>
+);
 
 export function QuestionCard({ 
   question, 
@@ -33,13 +43,13 @@ export function QuestionCard({
   const isAdmin = !!onPromptChange;
 
   return (
-    <article className="group rounded-2xl border border-border bg-card p-6 shadow-sm">
+    <article className="group rounded-xl border border-border bg-card p-4 shadow-sm">
       <header className="mb-6 flex items-start gap-4">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border bg-background font-semibold text-primary">
           {String(index + 1).padStart(2, "0")}
         </div>
         
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           {isAdmin ? (
             <textarea 
               value={question.prompt} 
@@ -48,11 +58,7 @@ export function QuestionCard({
               rows={3}
             />
           ) : (
-            <div className="prose prose-sm dark:prose-invert max-w-none [&_p]:m-0">
-              <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
-                {question.prompt}
-              </ReactMarkdown>
-            </div>
+            <MarkdownRenderer content={question.prompt} />
           )}
         </div>
       </header>
@@ -84,13 +90,9 @@ export function QuestionCard({
                     type="button"
                     disabled={showResult}
                     onClick={() => onSelectAnswer(opt)}
-                    className={`w-full text-left p-4 rounded-xl border text-sm transition-all ${colorClass}`}
+                    className={cn("w-full text-left h-12 px-2 rounded-xl border text-xs transition-all", colorClass)}
                   >
-                    <div className="prose prose-sm dark:prose-invert max-w-none [&_p]:m-0">
-                      <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
-                        {opt}
-                      </ReactMarkdown>
-                    </div>
+                    <MarkdownRenderer content={opt} />
                   </button>
                 )}
                 {isAdmin && (
@@ -116,15 +118,11 @@ export function QuestionCard({
             <textarea 
               value={question.solution || ""} 
               onChange={(e) => onSolutionChange!(e.target.value)}
-              className="w-full p-3 border rounded-lg text-sm bg-background"
+              className="w-full p-3 border rounded-lg text-xs bg-background"
               rows={3}
             />
           ) : (
-            <div className="prose prose-sm dark:prose-invert max-w-none [&_p]:m-0">
-              <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
-                {question.solution || "No explanation provided."}
-              </ReactMarkdown>
-            </div>
+            <MarkdownRenderer content={question.solution || "No explanation provided."} />
           )}
         </div>
       )}

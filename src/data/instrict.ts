@@ -18,18 +18,15 @@ export type Course = {
   questions: Question[];
 };
 
-export type Department = {
-  id: string;
-  name: string;
-  courses: Course[];
-};
+
 
 export type Faculty = {
   id: string;
   name: string;
   tagline: string;
   whatsappUrl: string;
-  departments: Department[];
+  courses: Course[];
+
 };
 
 // --- Helper ---
@@ -41,7 +38,7 @@ const createCourse = (code: string, title: string, level: 100 | 200 | 300 | 400)
 });
 
 // --- Master Course Definitions ---
-const C = {
+export const C = {
   MTH101: createCourse("MTH101", "Elementary Mathematics I", 100),
   MTH102: createCourse("MTH102", "Elementary Mathematics II", 100),
   COS101: createCourse("COS101", "Introduction to Computer Science", 100),
@@ -84,71 +81,16 @@ export const FACULTIES: Faculty[] = [
     name: "Faculty of Science",
     tagline: "Natural sciences and mathematics disciplines",
     whatsappUrl: "https://chat.whatsapp.com/instrict-science",
-    departments: [
-      {
-        id: "gey",
-        name: "Geology",
-        courses: [C.GEY101, C.GEY102, C.PHY101 , C.PHY102, C.BIO101, C.COS101, C.STA111 , C.CHM101, C.CHM102, C.MAT121, C.MTH101, C.MTH102, C.PHY103, C.PHY104],
-      },
-      {
-        id: "mcb",
-        name: "Microbiology",
-        courses: [C.MCB121, C.PHY102, C.BOT141],
-      },
-      {
-        id: "chm",
-        name: "Chemistry",
-        courses: [C.BOT111, C.CSC101, C.BOT141, C.CHE176, C.MCB121],
-      },
-      {
-        id: "mat",
-        name: "Mathematics",
-        courses: [C.MAT121, C.MAT111,  C.PHY102, C.PHY103, C.PHY118, C.STA114, C.MAT141, C.MAT142, C.PHY104],
-      },
-       {
-        id: "bot",
-        name: "Botany",
-        courses: [C.BOT111, C.BOT121, C.BOT141],
-      },
-       {
-        id: "zoo",
-        name: "Zoology",
-        courses: [C.MAT121, C.MAT111, C.PHY102, C.PHY103, C.PHY118, C.STA114, C.MAT141, C.MAT142, C.PHY104],
-      },
-       {
-        id: "phy",
-        name: "Physics",
-        courses: [C.MAT121, C.MAT111, C.PHY102, C.PHY103, C.PHY118, C.STA114, C.MAT141, C.MAT142, C.PHY104,]
-      },
-       {
-        id: "sta",
-        name: "Statistics",
-        courses: [C.MAT121, C.MAT111,  C.PHY102, C.PHY103, C.PHY118, C.STA114, C.MAT141, C.MAT142, C.PHY104, ],
-      },
-       {
-        id: "Arc",
-        name: "Archaeology and Anthropology",
-        courses: [C.MAT121, C.MAT111, C.PHY102, C.PHY103, C.PHY118, C.STA114, C.MAT141, C.MAT142, C.PHY104,]
-      },
-       {
-        id: "geo",
-        name: "Geography",
-        courses: [C.MAT121, C.MAT111,C.PHY102, C.PHY103, C.PHY118, C.STA114, C.MAT141, C.MAT142, C.PHY104, ],
-      },
-    ],
+     courses: [C.GEY101, C.GEY102, C.PHY101 , C.PHY102, C.BIO101, C.COS101, C.STA111 , C.CHM101, C.CHM102, C.MAT121, C.MTH101, C.MTH102, C.PHY103, C.PHY104],
+    
   },
   {
+   
     id: "technology",
     name: "Faculty of Technology",
     tagline: "Engineering and applied technology disciplines",
      whatsappUrl: "https://chat.whatsapp.com/instrict-technology",
-    departments: [
-      {
-        id: "mee",
-        name: "Mechanical Engineering",
-        courses: [createCourse("MEE201", "Engineering Mechanics", 200)],
-      },
-    ],
+      courses: [C.PHY101 , C.PHY102, C.BIO101, C.COS101, C.STA111 , C.CHM101, C.CHM102, C.MAT121, C.MTH101, C.MTH102, C.PHY103, C.PHY104]
   },
 ];
 

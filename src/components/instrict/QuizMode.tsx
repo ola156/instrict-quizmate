@@ -27,12 +27,11 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
-import type { Course, Department, Faculty, Question } from "@/data/instrict";
+import type { Course,  Faculty, Question } from "@/data/instrict";
 import { WhatsAppCTA } from "./WhatsAppCTA";
 
 type Props = {
   course: Course;
-  department: Department;
   faculty: Faculty;
   facultyName: string;
   year: number | "all";
@@ -43,7 +42,6 @@ const PRESETS = [10, 20, 30];
 
 export function QuizMode({
   course,
-  department,
   faculty,
   facultyName,
   year,
@@ -129,7 +127,7 @@ export function QuizMode({
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           <Meta label="Faculty" value={facultyName} />
-          <Meta label="Department" value={department.name} />
+          <Meta label="Department" value={'Instrict'} />
           <Meta label="Course Code" value={course.code} sub={course.title} />
           <Meta label="Class Level" value={`${course.level}L`} />
           <Meta
@@ -531,7 +529,7 @@ export function QuizMode({
                   Finish & Grade
                 </Button>
               </AlertDialogTrigger>
-              <AlertDialogContent className="border border-border bg-[var(--gradient-card)] shadow-xl rounded-2xl">
+              <AlertDialogContent className="border border-border shadow-xl rounded-2xl">
                 <AlertDialogHeader>
                   <AlertDialogTitle className="text-xl font-bold tracking-tight">
                     Confirm Submission
