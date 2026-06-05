@@ -43,7 +43,7 @@ CRITICAL FORMATTING RULES:
 5. Provide valid JSON only. Do not include markdown code blocks (e.g., \`\`\`json) in your response.
 `;
 
-const modelName = "models/gemini-2.5-flash";
+const modelName = "gemini-2.5-flash";
 
     const response = await ai.models.generateContent({
       model: modelName,
