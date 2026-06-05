@@ -43,6 +43,7 @@ export const C = {
   MTH102: createCourse("MTH102", "Elementary Mathematics II", 100),
   COS101: createCourse("COS101", "Introduction to Computer Science", 100),
   BIO101: createCourse("BIO101", "General Biology I", 100),
+  BIO102: createCourse("BIO102", "General Biology II", 100),
   PHY101: createCourse("PHY101", "General Physics I (Mechanics)", 100),
   PHY102: createCourse("PHY102", "General Physics II (Electromagnetism)", 100),
   PHY103: createCourse("PHY103", "General Physics III", 100),
@@ -52,26 +53,8 @@ export const C = {
   CHM101: createCourse("CHM101", "General Chemistry I", 100),
   CHM102: createCourse("CHM102", "General Chemistry II", 100),
   STA111: createCourse("STA111", "Descriptive Statistics", 100),
-  CHE176: createCourse("CHE176", "General Chemistry II", 100),
-  MAT121: createCourse("MAT121", "Elementary Mathematics I", 100),
-  MAT111: createCourse("MAT111", "Algebra and Trigonometry", 100),
-  STA114: createCourse("STA114", "Introduction to Statistics", 100),
-  PHY108: createCourse("PHY108", "Physics for Science I", 100),
-  PHY118: createCourse("PHY118", "Introduction to Modern Physics", 100),
-  GES101: createCourse("GES101", "Use of English", 100),
-  GES107: createCourse("GES107", "Nigerian Peoples and Culture", 100),
-  GES108: createCourse("GES108", "Philosophy and Logic", 100),
-  BOT111: createCourse("BOT111", "General Biology I", 100),
-  BOT121: createCourse("BOT121", "General Biology II", 100),
-  BOT141: createCourse("BOT141", "Plant Biology", 100),
-  MCB121: createCourse("MCB121", "General Microbiology", 100),
-  ANT115: createCourse("ANT115", "Introduction to Anthropology", 100),
-  ARC111: createCourse("ARC111", "Introduction to Archaeology", 100),
-  MAT141: createCourse("MAT141", "Mathematics for Physical Sciences I", 100),
-  MAT142: createCourse("MAT142", "Mathematics for Physical Sciences II", 100),
-  STA141: createCourse("STA141", "Statistics for Science", 100),
-  TME121: createCourse("TME121", "Technical Drawing", 100),
-  CSC101: createCourse("CSC101", "Introduction to Computer Science", 100),
+  ZOO101: createCourse("ZOO101", "The Mammalian Body", 100),
+  ZOO102: createCourse("ZOO102", "Animal Diversity", 100),
 };
 
 // --- Faculty Data ---
@@ -80,8 +63,8 @@ export const FACULTIES: Faculty[] = [
     id: "science",
     name: "Faculty of Science",
     tagline: "Natural sciences and mathematics disciplines",
-    whatsappUrl: "https://chat.whatsapp.com/instrict-science",
-     courses: [C.GEY101, C.GEY102, C.PHY101 , C.PHY102, C.BIO101, C.COS101, C.STA111 , C.CHM101, C.CHM102, C.MAT121, C.MTH101, C.MTH102, C.PHY103, C.PHY104],
+    whatsappUrl: "https://chat.whatsapp.com/DMypGT7hlcuLW51jZKYHeM",
+     courses: [ C.PHY101 , C.PHY102, C.BIO101, C.COS101, C.STA111 , C.CHM101, C.CHM102, C.MTH101, C.MTH102, C.PHY103, C.PHY104, C.GEY101, C.GEY102,],
     
   },
   {
@@ -90,7 +73,7 @@ export const FACULTIES: Faculty[] = [
     name: "Faculty of Technology",
     tagline: "Engineering and applied technology disciplines",
      whatsappUrl: "https://chat.whatsapp.com/instrict-technology",
-      courses: [C.PHY101 , C.PHY102, C.BIO101, C.COS101, C.STA111 , C.CHM101, C.CHM102, C.MAT121, C.MTH101, C.MTH102, C.PHY103, C.PHY104]
+      courses: [C.PHY101 , C.PHY102, C.BIO101, C.STA111 , C.CHM101, C.CHM102, C.MTH101, C.MTH102, C.PHY103, C.PHY104]
   },
 ];
 

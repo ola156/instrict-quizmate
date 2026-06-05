@@ -12,7 +12,7 @@ export function WhatsAppCTA({ departmentName, url, variant = "default" }: Props)
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group mt-4 flex items-start gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 transition-colors hover:border-emerald-400/40 hover:bg-emerald-500/10 ${
+      className={`group mt-4 flex items-start gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 md:p-4 p-2 transition-colors hover:border-emerald-400/40 hover:bg-emerald-500/10 ${
         variant === "compact" ? "p-3" : ""
       }`}
     >
@@ -23,7 +23,7 @@ export function WhatsAppCTA({ departmentName, url, variant = "default" }: Props)
         <p className="text-sm font-medium text-foreground">
           Stuck on this topic?
         </p>
-        <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
+        <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground font-extrabold">
           Drop it into the{" "}
           <span className="font-medium text-emerald-300">Instrict {departmentName}</span>{" "}
           WhatsApp Community to solve it with your coursemates right now.
