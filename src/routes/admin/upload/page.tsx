@@ -8,14 +8,14 @@ import * as z from "zod";
 import { extractQuestionWithAI } from "@/lib/api/serverFunctions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Loader2, Sparkles, UploadCloud, Trash2, Save } from "lucide-react";
+import { Loader2, Sparkles, UploadCloud, Trash2, Save, Plus } from "lucide-react";
 import { QuestionCard } from "@/components/instrict/QuestionCard";
 import { C } from '@/data/instrict';
 import { supabase } from "@/lib/supabase";
 
 const questionSchema = z.object({
-  prompt: z.string().min(1),
-  solution: z.string().min(1),
+  prompt: z.string().min(1, "Prompt is required"),
+  solution: z.string().min(1, "Solution is required"),
   type: z.enum(["objective", "theory", "fill-in-the-gap"]),
   formula: z.string().optional(),
   options: z.array(z.string()).optional(),
@@ -46,10 +46,21 @@ function AdminUploadPage() {
     defaultValues: { courseId: allCourses[0]?.code || "", questions: [] },
   });
 
-  const { fields, replace, remove, update } = useFieldArray({
+  const { fields, replace, remove, update, append } = useFieldArray({
     control: form.control,
     name: "questions",
   });
+
+  const handleAddNew = () => {
+    append({
+      prompt: "",
+      solution: "",
+      type: "objective", // Default to objective to show options
+      options: ["", "", "", ""], // Pre-fill 4 empty options
+      answer: "",
+      formula: "",
+    });
+  };
 
   const handleSaveToSupabase = async (data: AdminFormValues) => {
     setIsSaving(true);
@@ -150,16 +161,27 @@ function AdminUploadPage() {
         </div>
 
         <div className="space-y-4">
+          <Button variant="outline" className="w-full border-dashed" onClick={handleAddNew}>
+            <Plus className="mr-2 h-4 w-4" /> Add Manual Question
+          </Button>
+
           {fields.map((field, index) => (
-            <div key={field.id} className="border p-4 rounded-2xl bg-background relative space-y-2">
+            <div key={field.id} className="border p-4 rounded-2xl  bg-background relative space-y-4">
               <Button size="icon" variant="ghost" className="absolute top-2 right-2" onClick={() => remove(index)}>
                 <Trash2 className="h-4 w-4 text-red-500" />
               </Button>
               
               <select 
                 value={field.type} 
-                className="text-xs font-bold uppercase p-1 border rounded"
-                onChange={(e) => update(index, { ...field, type: e.target.value as any })}
+                className="text-xs font-bold uppercase p-1 border rounded bg-transparent md:w-[30%] w-[50%]"
+                onChange={(e) => {
+                  const newType = e.target.value as any;
+                  update(index, { 
+                    ...field, 
+                    type: newType,
+                    options: newType === "objective" ? (field.options?.length ? field.options : ["", "", "", ""]) : [] 
+                  });
+                }}
               >
                 <option value="objective">Objective</option>
                 <option value="theory">Theory</option>
