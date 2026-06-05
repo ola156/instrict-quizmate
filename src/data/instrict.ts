@@ -55,6 +55,15 @@ export const C = {
   STA111: createCourse("STA111", "Descriptive Statistics", 100),
   ZOO101: createCourse("ZOO101", "The Mammalian Body", 100),
   ZOO102: createCourse("ZOO102", "Animal Diversity", 100),
+ ECO101: createCourse("ECO101", "Introduction to Economics", 100),
+ ECO102: createCourse("ECO102", "Principles of Microeconomics", 100),
+ ECO104: createCourse("ECO104", "Mathematics for Economist", 100),
+ ECO105: createCourse("ECO105", "Introduction to Logic", 100),
+ ACC101: createCourse("ACC101", "Principles of Accounting", 100),
+ AMS101: createCourse("AMS101", "Principles of Management", 100),
+ AMS102: createCourse("AMS102", "Basic Mathematics", 100),
+ POS113: createCourse("POS113", "The Organization of Govt", 100),
+ FEM103: createCourse("FEM103", "Introduction to Mathematics for Management", 100),
 };
 
 // --- Faculty Data ---
@@ -64,7 +73,7 @@ export const FACULTIES: Faculty[] = [
     name: "Faculty of Science",
     tagline: "Natural sciences and mathematics disciplines",
     whatsappUrl: "https://chat.whatsapp.com/DMypGT7hlcuLW51jZKYHeM",
-     courses: [ C.PHY101 , C.PHY102, C.BIO101, C.COS101, C.STA111 , C.CHM101, C.CHM102, C.MTH101, C.MTH102, C.PHY103, C.PHY104, C.GEY101, C.GEY102,],
+     courses: [ C.PHY101 , C.PHY102, C.BIO101,C.BIO102, C.COS101, C.STA111 , C.CHM101, C.CHM102, C.MTH101, C.MTH102, C.PHY103, C.PHY104, C.GEY101, C.GEY102,C.ZOO101, C.ZOO102],
     
   },
   {
@@ -72,8 +81,23 @@ export const FACULTIES: Faculty[] = [
     id: "technology",
     name: "Faculty of Technology",
     tagline: "Engineering and applied technology disciplines",
-     whatsappUrl: "https://chat.whatsapp.com/instrict-technology",
-      courses: [C.PHY101 , C.PHY102, C.BIO101, C.STA111 , C.CHM101, C.CHM102, C.MTH101, C.MTH102, C.PHY103, C.PHY104]
+     whatsappUrl: "https://chat.whatsapp.com/C24AXsAGB0OISqqZb7HizA",
+      courses: [C.PHY101 , C.PHY102, C.BIO101,C.BIO102, C.STA111 , C.CHM101, C.CHM102, C.MTH101, C.MTH102, C.PHY103, C.PHY104]
+  },
+   {
+   
+    id: "medicine",
+    name: "Faculty of Medicine",
+    tagline: "Medical and health sciences disciplines",
+     whatsappUrl: "https://chat.whatsapp.com/K11C7cacr6f2UpXunPKCsO",
+      courses: [C.PHY101 , C.PHY102, C.BIO101,C.BIO102, C.STA111 , C.CHM101, C.CHM102, C.MTH101, C.MTH102, C.PHY103, C.PHY104, C.ZOO101, C.ZOO102, C.STA111]
+  }, {
+   
+    id: "economics",
+    name: "Faculty of Economics",
+    tagline: "Faculty Of Economics",
+     whatsappUrl: "https://chat.whatsapp.com/Hd42qu724hOEaCIT5uhssN",
+      courses: [C.ECO101, C.ECO102, C.ECO104, C.ECO105, C.ACC101, C.AMS101, C.AMS102, C.POS113, C.FEM103, C.COS101]
   },
 ];
 
