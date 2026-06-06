@@ -43,20 +43,15 @@ export const C = {
   MTH102: createCourse("MTH102", "Elementary Mathematics II", 100),
   COS101: createCourse("COS101", "Introduction to Computer Science", 100),
   BIO101: createCourse("BIO101", "General Biology I", 100),
-  BIO102: createCourse("BIO102", "General Biology II", 100),
+  BOT111: createCourse("BOT111", "Cryptogamic Botany", 100),
+  BOT102: createCourse("BOT102", "Introductory Botany", 100),
   PHY101: createCourse("PHY101", "General Physics I (Mechanics)", 100),
-  PHY102: createCourse("PHY102", "General Physics II (Electromagnetism)", 100),
   PHY103: createCourse("PHY103", "General Physics III", 100),
-  PHY104: createCourse("PHY104", "General Physics IV (Optics)", 100),
   GEY101: createCourse("GEY101", "Introduction to Geology", 100),
-  GEY102: createCourse("GEY102", "Introduction to Geology II", 100),
   CHM101: createCourse("CHM101", "General Chemistry I", 100),
-  CHM102: createCourse("CHM102", "General Chemistry II", 100),
   STA111: createCourse("STA111", "Descriptive Statistics", 100),
-  ZOO101: createCourse("ZOO101", "The Mammalian Body", 100),
-  ZOO102: createCourse("ZOO102", "Animal Diversity", 100),
+ STA112: createCourse("STA112", "Inferential Statistics", 100),
  ECO101: createCourse("ECO101", "Introduction to Economics", 100),
- ECO102: createCourse("ECO102", "Principles of Microeconomics", 100),
  ECO104: createCourse("ECO104", "Mathematics for Economist", 100),
  ECO105: createCourse("ECO105", "Introduction to Logic", 100),
  ACC101: createCourse("ACC101", "Principles of Accounting", 100),
@@ -73,7 +68,7 @@ export const FACULTIES: Faculty[] = [
     name: "Faculty of Science",
     tagline: "Natural sciences and mathematics disciplines",
     whatsappUrl: "https://chat.whatsapp.com/DMypGT7hlcuLW51jZKYHeM",
-     courses: [ C.PHY101 , C.PHY102, C.BIO101,C.BIO102, C.COS101, C.STA111 , C.CHM101, C.CHM102, C.MTH101, C.MTH102, C.PHY103, C.PHY104, C.GEY101, C.GEY102,C.ZOO101, C.ZOO102],
+     courses: [ C.PHY101 , C.BIO101, C.COS101, C.STA111 , C.CHM101, C.MTH101, C.MTH102, C.PHY103, C.GEY101 , C.BOT111, C.BOT102, C.STA112],
     
   },
   {
@@ -82,22 +77,22 @@ export const FACULTIES: Faculty[] = [
     name: "Faculty of Technology",
     tagline: "Engineering and applied technology disciplines",
      whatsappUrl: "https://chat.whatsapp.com/C24AXsAGB0OISqqZb7HizA",
-      courses: [C.PHY101 , C.PHY102, C.BIO101,C.BIO102, C.STA111 , C.CHM101, C.CHM102, C.MTH101, C.MTH102, C.PHY103, C.PHY104]
+      courses: [C.PHY101 , C.BIO101, C.STA111 , C.CHM101, C.MTH101, C.MTH102, C.PHY103, C.STA112]
   },
    {
    
     id: "medicine",
-    name: "Faculty of Medicine",
+    name: "College of Medicine",
     tagline: "Medical and health sciences disciplines",
      whatsappUrl: "https://chat.whatsapp.com/K11C7cacr6f2UpXunPKCsO",
-      courses: [C.PHY101 , C.PHY102, C.BIO101,C.BIO102, C.STA111 , C.CHM101, C.CHM102, C.MTH101, C.MTH102, C.PHY103, C.PHY104, C.ZOO101, C.ZOO102, C.STA111]
+      courses: [C.PHY101 , C.BIO101, C.STA111 , C.CHM101, C.MTH101, C.MTH102, C.PHY103, C.STA112, C.COS101]
   }, {
    
     id: "economics",
     name: "Faculty of Economics",
     tagline: "Faculty Of Economics",
      whatsappUrl: "https://chat.whatsapp.com/Hd42qu724hOEaCIT5uhssN",
-      courses: [C.ECO101, C.ECO102, C.ECO104, C.ECO105, C.ACC101, C.AMS101, C.AMS102, C.POS113, C.FEM103, C.COS101]
+      courses: [C.ECO101, C.ECO104, C.ECO105, C.ACC101, C.AMS101, C.AMS102, C.POS113, C.FEM103, C.COS101]
   },
 ];
 

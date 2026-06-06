@@ -116,7 +116,7 @@ function Index() {
       <section className="border-b border-border bg-card/30">
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
           <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-primary mb-4"><GraduationCap className="h-3.5 w-3.5" /> {faculty.name}</div>
-          <h1 className="max-w-2xl text-3xl font-semibold leading-[1.1] tracking-tight sm:text-4xl">Master Past Questions with Instrict.</h1>
+          <h1 className="max-w-2xl text-2xl font-semibold leading-[1.2] tracking-tight sm:text-4xl">Study Smarter, Not Harder {faculty.name === 'Faculty of Science' ? 'Driven by The Evolution' : ' Sponsored by Instrict'}</h1>
           
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <p className="text-sm text-muted-foreground">
