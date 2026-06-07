@@ -54,7 +54,6 @@ export const C = {
  ECO105: createCourse("ECO105", "Introduction to Logic", 100),
  ACC101: createCourse("ACC101", "Principles of Accounting", 100),
  AMS101: createCourse("AMS101", "Principles of Management", 100),
- AMS102: createCourse("AMS102", "Basic Mathematics", 100),
  POS113: createCourse("POS113", "The Organization of Govt", 100),
  FEM103: createCourse("FEM103", "Introduction to Mathematics for Management", 100),
 };
@@ -90,7 +89,7 @@ export const FACULTIES: Faculty[] = [
     name: "Faculty of Economics",
     tagline: "Faculty Of Economics",
      whatsappUrl: "https://chat.whatsapp.com/Hd42qu724hOEaCIT5uhssN",
-      courses: [C.ECO101, C.ECO104, C.ECO105, C.ACC101, C.AMS101, C.AMS102, C.POS113, C.FEM103, C.COS101]
+      courses: [C.ECO101, C.ECO104, C.ECO105, C.ACC101, C.AMS101 , C.POS113, C.FEM103, C.COS101]
   },
 ];
 

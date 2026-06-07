@@ -1,7 +1,7 @@
  import { createServerFn } from "@tanstack/react-start";
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY_1! });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
 type FilePayload = {
   base64Data: string;
