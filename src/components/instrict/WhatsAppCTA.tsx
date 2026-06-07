@@ -21,12 +21,12 @@ export function WhatsAppCTA({ departmentName, url, variant = "default" }: Props)
       </div>
       <div className="flex-1">
         <p className="text-sm font-medium text-foreground">
-          Stuck on this topic?
+         Join the Community
         </p>
         <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground font-extrabold">
-          Drop it into the{" "}
+         {" "}
           <span className="font-medium text-emerald-300">Instrict {departmentName}</span>{" "}
-          WhatsApp Community to solve it with your coursemates right now.
+          WhatsApp Community.
         </p>
       </div>
       <span className="self-center text-xs font-medium text-emerald-300 opacity-0 transition-opacity group-hover:opacity-100">
