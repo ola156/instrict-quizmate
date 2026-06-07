@@ -44,10 +44,8 @@ export const C = {
   COS101: createCourse("COS101", "Introduction to Computer Science", 100),
   BIO101: createCourse("BIO101", "General Biology I", 100),
   BOT111: createCourse("BOT111", "Cryptogamic Botany", 100),
-  BOT102: createCourse("BOT102", "Introductory Botany", 100),
   PHY101: createCourse("PHY101", "General Physics I (Mechanics)", 100),
   PHY103: createCourse("PHY103", "General Physics III", 100),
-  GEY101: createCourse("GEY101", "Introduction to Geology", 100),
   CHM101: createCourse("CHM101", "General Chemistry I", 100),
   STA111: createCourse("STA111", "Descriptive Statistics", 100),
  STA112: createCourse("STA112", "Inferential Statistics", 100),
@@ -68,7 +66,7 @@ export const FACULTIES: Faculty[] = [
     name: "Faculty of Science",
     tagline: "Natural sciences and mathematics disciplines",
     whatsappUrl: "https://chat.whatsapp.com/DMypGT7hlcuLW51jZKYHeM",
-     courses: [ C.PHY101 , C.BIO101, C.COS101, C.STA111 , C.CHM101, C.MTH101, C.MTH102, C.PHY103, C.GEY101 , C.BOT111, C.BOT102, C.STA112],
+     courses: [ C.PHY101 , C.BIO101, C.COS101, C.STA111 , C.CHM101, C.MTH101, C.MTH102, C.PHY103 , C.BOT111, C.STA112],
     
   },
   {

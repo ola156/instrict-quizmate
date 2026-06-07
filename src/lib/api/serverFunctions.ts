@@ -1,7 +1,7 @@
  import { createServerFn } from "@tanstack/react-start";
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY_1! });
 
 type FilePayload = {
   base64Data: string;
@@ -65,6 +65,7 @@ const modelName = "gemini-2.5-flash";
       return JSON.parse(cleanedText);
     } catch {
       throw new Error(`Failed to parse Gemini response as JSON:\n${cleanedText}`);
+              alert(`"rawResponse": ${JSON.stringify(cleanedText)}}`);
     }
   });
 
