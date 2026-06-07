@@ -109,9 +109,21 @@ export function QuestionCard({
       {(showResult || isAdmin) && (
         <div className="ml-0 sm:ml-12 mt-6 p-5 rounded-2xl bg-muted/30 border border-border/50 min-w-0 overflow-hidden">
           {!isAdmin && (
-            <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-widest mb-3">
-              {isCorrect ? <><CheckCircle2 className="h-4 w-4 text-green-500" /> Correct</> : <><XCircle className="h-4 w-4 text-red-500" /> Incorrect</>}
-            </div>
+           <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-widest mb-3">
+  {type === "objective" ? (
+    isCorrect ? (
+      <>
+        <CheckCircle2 className="h-4 w-4 text-green-500" /> Correct
+      </>
+    ) : (
+      <>
+        <XCircle className="h-4 w-4 text-red-500" /> Incorrect
+      </>
+    )
+  ) : (
+    "Answer"
+  )}
+</div>
           )}
           
           {isAdmin ? (

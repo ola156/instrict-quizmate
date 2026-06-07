@@ -131,8 +131,8 @@ export function QuizMode({
           <Meta label="Course Code" value={course.code} sub={course.title} />
           <Meta label="Class Level" value={`${course.level}L`} />
           <Meta
-            label="Session Year"
-            value={year === "all" ? "All Archives" : `${year} Exam`}
+            label="Current set"
+            value={year === "all" ? "All Archives" : `Set ${year} `}
           />
           <Meta
             label="OBJ Pools"
