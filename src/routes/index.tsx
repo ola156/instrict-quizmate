@@ -170,13 +170,14 @@ function Index() {
               <button onClick={() => setViewMode("study_page")} className="inline-flex items-center gap-2 rounded-lg bg-background border px-4 py-2 text-xs font-semibold hover:border-primary/50"><BookOpen className="h-3.5 w-3.5 text-primary" /> Study Mode</button>
               <button onClick={() => setViewMode("quiz_page")} className="inline-flex items-center gap-2 rounded-lg bg-background border px-4 py-2 text-xs font-semibold hover:border-primary/50"><Target className="h-3.5 w-3.5 text-primary" /> Quiz Mode</button>
             </div>
-            <WhatsAppCTA departmentName={faculty.name} url={faculty.whatsappUrl} />
           </div>
         ) : (
           <div className="rounded-2xl border border-dashed border-border bg-card/40 p-16 text-center text-sm text-muted-foreground">Pick a course from the search bar above to begin your session.</div>
         )}
       </main>
-
+  <div className="mx-auto max-w-6xl px-4  sm:px-6">
+    <WhatsAppCTA departmentName={faculty.name} url={faculty.whatsappUrl} />
+    </div>  
       <footer className="py-8 text-center text-xs text-muted-foreground">Built for students · © Instrict</footer>
     </div>
   );
