@@ -64,7 +64,7 @@ export const FACULTIES: Faculty[] = [
     id: "science",
     name: "Faculty of Science",
     tagline: "Natural sciences and mathematics disciplines",
-    whatsappUrl: "https://chat.whatsapp.com/DMypGT7hlcuLW51jZKYHeM",
+    whatsappUrl: "https://chat.whatsapp.com/K11C7cacr6f2UpXunPKCsO",
      courses: [ C.PHY101 , C.BIO101, C.COS101, C.STA111 , C.CHM101, C.MTH101, C.MTH102, C.PHY103 , C.BOT111, C.STA112],
     
   },
@@ -73,7 +73,7 @@ export const FACULTIES: Faculty[] = [
     id: "technology",
     name: "Faculty of Technology",
     tagline: "Engineering and applied technology disciplines",
-     whatsappUrl: "https://chat.whatsapp.com/C24AXsAGB0OISqqZb7HizA",
+     whatsappUrl: "https://chat.whatsapp.com/K11C7cacr6f2UpXunPKCsO",
       courses: [C.PHY101 , C.BIO101, C.STA111 , C.CHM101, C.MTH101, C.MTH102, C.PHY103, C.STA112]
   },
    {
@@ -88,7 +88,7 @@ export const FACULTIES: Faculty[] = [
     id: "economics",
     name: "Faculty of Economics",
     tagline: "Faculty Of Economics",
-     whatsappUrl: "https://chat.whatsapp.com/Hd42qu724hOEaCIT5uhssN",
+     whatsappUrl: "https://chat.whatsapp.com/K11C7cacr6f2UpXunPKCsO",
       courses: [C.ECO101, C.ECO104, C.ECO105, C.ACC101, C.AMS101 , C.POS113, C.FEM103, C.COS101]
   },
 ];
